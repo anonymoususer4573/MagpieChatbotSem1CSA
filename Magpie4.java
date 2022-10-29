@@ -18,7 +18,7 @@ public class Magpie4
 	 */	
 	public String getGreeting()
 	{
-		return "Hello, let's talk.";
+		return "Healthbot: Hey!";
 	}
 	
 	/**
@@ -33,19 +33,19 @@ public class Magpie4
 		String response = "";
 		if (statement.length() == 0)
 		{
-			response = "Say something, please.";
+			response = "Healthbot: Say something, please.";
 		}
 
 		else if (findKeyword(statement, "no") >= 0)
 		{
-			response = "Why so negative?";
+			response = "Healthbot: Why so negative?";
 		}
 		else if (findKeyword(statement, "mother") >= 0
 				|| findKeyword(statement, "father") >= 0
 				|| findKeyword(statement, "sister") >= 0
 				|| findKeyword(statement, "brother") >= 0)
 		{
-			response = "Tell me more about your family.";
+			response = "Healthbot: Tell me more about your family.";
 		}
 
 		// Responses which require transformations
@@ -53,6 +53,31 @@ public class Magpie4
 		{
 			response = transformIWantToStatement(statement);
 		}
+		//our own personal code 
+		else if ((findKeyword(statement, "Hello", 0) >= 0) || (findKeyword(statement, "Hi", 0) >= 0))
+		{
+			response = "Healthbot: Hi! I'm Healthbot, here to speak about health and give you health tips!";
+			
+		}
+
+		else if ((findKeyword(statement, "How are you doing?", 0) >= 0) || (findKeyword(statement, "How are you?", 0) >= 0))
+		{
+			response = "Healthbot: Everything is well for me! How about you?";
+			
+		}
+		else if ((findKeyword(statement, "I am doing good", 0) >= 0) || (findKeyword(statement, "Good", 0) >= 0))
+		{
+			response = "Healthbot: Nice!";
+			
+		}
+		else if((findKeyword(statement, "I am doing bad", 0) >= 0) || (findKeyword(statement, "Things have been rough for me", 0) >= 0))
+		{
+			response = "Healthbot: That's unfortunate, I hope I can cheer you up today.";
+		}
+		
+
+
+
 
 		else
 		{
@@ -92,7 +117,7 @@ public class Magpie4
 		}
 		int psn = findKeyword (statement, "I want to", 0);
 		String restOfStatement = statement.substring(psn + 9).trim();
-		return "What would it mean to " + restOfStatement + "?";
+		return "Healthbot: What would it mean to " + restOfStatement + "?";
 	}
 
 	
@@ -119,7 +144,7 @@ public class Magpie4
 		int psnOfMe = findKeyword (statement, "me", psnOfYou + 3);
 		
 		String restOfStatement = statement.substring(psnOfYou + 3, psnOfMe).trim();
-		return "What makes you think that I " + restOfStatement + " you?";
+		return "Healthbot: What makes you think that I " + restOfStatement + " you?";
 	}
 	
 	
@@ -198,23 +223,22 @@ public class Magpie4
 		
 		if (whichResponse == 0)
 		{
-			response = "Interesting, tell me more.";
+			response = "Healthbot: Interesting, tell me more.";
 		}
 		else if (whichResponse == 1)
 		{
-			response = "Hmmm.";
+			response = "Healthbot: Hmmm.";
 		}
 		else if (whichResponse == 2)
 		{
-			response = "Do you really think so?";
+			response = "Healthbot: Do you really think so?";
 		}
 		else if (whichResponse == 3)
 		{
-			response = "You don't say.";
+			response = "Healthbot: You don't say.";
 		}
 
 		return response;
 	}
 
 }
-

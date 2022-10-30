@@ -1,8 +1,10 @@
+import java.util.Scanner;
+
 /**
  * A program to carry on conversations with a human user.
  * This version:
  *<ul><li>
- * 		Uses advanced search for keywords 
+ * 		Uses advanced search for keywords
  *</li><li>
  * 		Will transform statements as well as react to keywords
  *</li></ul>
@@ -13,17 +15,17 @@
 public class Magpie4
 {
 	/**
-	 * Get a default greeting 	
+	 * Get a default greeting
 	 * @return a greeting
-	 */	
+	 */
 	public String getGreeting()
 	{
 		return "Healthbot: Hey!";
 	}
-	
+
 	/**
 	 * Gives a response to a user statement
-	 * 
+	 *
 	 * @param statement
 	 *            the user statement
 	 * @return a response based on the rules given
@@ -53,29 +55,59 @@ public class Magpie4
 		{
 			response = transformIWantToStatement(statement);
 		}
-		//our own personal code 
+		//our own personal code
 		else if ((findKeyword(statement, "Hello", 0) >= 0) || (findKeyword(statement, "Hi", 0) >= 0))
 		{
-			response = "Healthbot: Hi! I'm Healthbot, here to speak about health and give you health tips!";
-			
+			if ((findKeyword(statement, "how", 0) >= 0)){
+				response = "Healthbot: Hello, I am great! My name is Healthbot, how are you doing today?";
+			}
+			else {
+				response = "Healthbot: Hi! I'm Healthbot, here to speak about health and give you health tips!";
+			}
 		}
 
 		else if ((findKeyword(statement, "How are you doing?", 0) >= 0) || (findKeyword(statement, "How are you?", 0) >= 0))
 		{
 			response = "Healthbot: Everything is well for me! How about you?";
-			
+
 		}
 		else if ((findKeyword(statement, "I am doing good", 0) >= 0) || (findKeyword(statement, "Good", 0) >= 0))
 		{
 			response = "Healthbot: Nice!";
-			
+
 		}
 		else if((findKeyword(statement, "I am doing bad", 0) >= 0) || (findKeyword(statement, "Things have been rough for me", 0) >= 0))
 		{
 			response = "Healthbot: That's unfortunate, I hope I can cheer you up today.";
 		}
-		
-
+		else if ((findKeyword(statement, "Give me health tips", 0) >= 0))
+		{
+			System.out.println("Healthbot: Sure");
+			System.out.println("Do you exercise every day?");
+			Scanner in = new Scanner (System.in);
+			String statement2 = in.nextLine();
+			if ((findKeyword(statement2, "yes" , 0) >=0)){
+				response += "Good job on exercising daily! It helps increase endorphin count and helps you lose weight!";
+			}
+			else if ((findKeyword(statement2, "no" , 0) >=0)){
+				response += "Come on! Exercising daily is great for your health. Having a sedentary lifestyle increases your risk for diseases like heart attacks";
+			}
+			else {
+				response += "Say something next time";
+			}
+		}
+		else if ((findKeyword(statement, "Yes", 0) >= 0) && (findKeyword(statement, "exercise", 0) >= 0))
+		{
+			response = "Good job on exercising daily! It helps increase endorphin count and helps you lose weight!";
+		}
+		else if ((findKeyword(statement, "No I do not exercise daily", 0) >= 0))
+		{
+			response = "Come on! Exercising daily is great for your health. Having a sedentary lifestyle increases your risk for diseases like heart attacks";
+		}
+		else if ((findKeyword(statement, "Thanks", 0) >= 0))
+		{
+			response = "Your welcome";
+		}
 
 
 
@@ -97,9 +129,9 @@ public class Magpie4
 		}
 		return response;
 	}
-	
+
 	/**
-	 * Take a statement with "I want to <something>." and transform it into 
+	 * Take a statement with "I want to <something>." and transform it into
 	 * "What would it mean to <something>?"
 	 * @param statement the user statement, assumed to contain "I want to"
 	 * @return the transformed statement
@@ -120,10 +152,10 @@ public class Magpie4
 		return "Healthbot: What would it mean to " + restOfStatement + "?";
 	}
 
-	
-	
+
+
 	/**
-	 * Take a statement with "you <something> me" and transform it into 
+	 * Take a statement with "you <something> me" and transform it into
 	 * "What makes you think that I <something> you?"
 	 * @param statement the user statement, assumed to contain "you" followed by "me"
 	 * @return the transformed statement
@@ -139,22 +171,22 @@ public class Magpie4
 			statement = statement.substring(0, statement
 					.length() - 1);
 		}
-		
+
 		int psnOfYou = findKeyword (statement, "you", 0);
 		int psnOfMe = findKeyword (statement, "me", psnOfYou + 3);
-		
+
 		String restOfStatement = statement.substring(psnOfYou + 3, psnOfMe).trim();
 		return "Healthbot: What makes you think that I " + restOfStatement + " you?";
 	}
-	
-	
 
-	
-	
+
+
+
+
 	/**
 	 * Search for one word in phrase.  The search is not case sensitive.
 	 * This method will check that the given goal is not a substring of a longer string
-	 * (so, for example, "I know" does not contain "no").  
+	 * (so, for example, "I know" does not contain "no").
 	 * @param statement the string to search
 	 * @param goal the string to search for
 	 * @param startPos the character of the string to begin the search at
@@ -165,12 +197,12 @@ public class Magpie4
 		String phrase = statement.trim();
 		//  The only change to incorporate the startPos is in the line below
 		int psn = phrase.toLowerCase().indexOf(goal.toLowerCase(), startPos);
-		
-		//  Refinement--make sure the goal isn't part of a word 
-		while (psn >= 0) 
+
+		//  Refinement--make sure the goal isn't part of a word
+		while (psn >= 0)
 		{
 			//  Find the string of length 1 before and after the word
-			String before = " ", after = " "; 
+			String before = " ", after = " ";
 			if (psn > 0)
 			{
 				before = phrase.substring (psn - 1, psn).toLowerCase();
@@ -179,26 +211,26 @@ public class Magpie4
 			{
 				after = phrase.substring(psn + goal.length(), psn + goal.length() + 1).toLowerCase();
 			}
-			
+
 			//  If before and after aren't letters, we've found the word
 			if (((before.compareTo ("a") < 0 ) || (before.compareTo("z") > 0))  //  before is not a letter
 					&& ((after.compareTo ("a") < 0 ) || (after.compareTo("z") > 0)))
 			{
 				return psn;
 			}
-			
+
 			//  The last position didn't work, so let's find the next, if there is one.
 			psn = phrase.indexOf(goal.toLowerCase(), psn + 1);
-			
+
 		}
-		
+
 		return -1;
 	}
-	
+
 	/**
 	 * Search for one word in phrase.  The search is not case sensitive.
 	 * This method will check that the given goal is not a substring of a longer string
-	 * (so, for example, "I know" does not contain "no").  The search begins at the beginning of the string.  
+	 * (so, for example, "I know" does not contain "no").  The search begins at the beginning of the string.
 	 * @param statement the string to search
 	 * @param goal the string to search for
 	 * @return the index of the first occurrence of goal in statement or -1 if it's not found
@@ -207,7 +239,7 @@ public class Magpie4
 	{
 		return findKeyword (statement, goal, 0);
 	}
-	
+
 
 
 	/**
@@ -220,7 +252,7 @@ public class Magpie4
 		double r = Math.random();
 		int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
 		String response = "";
-		
+
 		if (whichResponse == 0)
 		{
 			response = "Healthbot: Interesting, tell me more.";

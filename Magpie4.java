@@ -33,6 +33,7 @@ public class Magpie4
 	public String getResponse(String statement)
 	{
 		String response = "";
+		int ansq = 0;
 		if (statement.length() == 0)
 		{
 			response = "Healthbot: Say something, please.";
@@ -73,37 +74,91 @@ public class Magpie4
 		}
 		else if ((findKeyword(statement, "I am doing good", 0) >= 0) || (findKeyword(statement, "Good", 0) >= 0))
 		{
-			response = "Healthbot: Nice!";
+			response = "Healthbot: Nice! Let's talk about health!";
 
 		}
 		else if((findKeyword(statement, "I am doing bad", 0) >= 0) || (findKeyword(statement, "Things have been rough for me", 0) >= 0))
 		{
 			response = "Healthbot: That's unfortunate, I hope I can cheer you up today.";
 		}
-		else if ((findKeyword(statement, "Give me health tips", 0) >= 0))
+		else if ((findKeyword(statement, "Give me health tips", 0) >= 0) || (findKeyword(statement, "give", 0) >= 0) || ((findKeyword(statement, "ok give tips", 0) >= 0)))
 		{
 			System.out.println("Healthbot: Sure");
 			System.out.println("Do you exercise every day?");
 			Scanner in = new Scanner (System.in);
-			String statement2 = in.nextLine();
-			if ((findKeyword(statement2, "yes" , 0) >=0)){
-				response += "Good job on exercising daily! It helps increase endorphin count and helps you lose weight!";
+			String statement1 = in.nextLine();
+			if ((findKeyword(statement1, "yes" , 0) >=0)){
+				System.out.println("Good job on exercising daily! It helps increase endorphin count and helps you lose weight!");
+				ansq += 1;
 			}
-			else if ((findKeyword(statement2, "no" , 0) >=0)){
-				response += "Come on! Exercising daily is great for your health. Having a sedentary lifestyle increases your risk for diseases like heart attacks";
+			else if ((findKeyword(statement1, "no" , 0) >=0)){
+				System.out.println("Come on! Exercising daily is great for your health. Having a sedentary lifestyle increases your risk for diseases like heart attacks");
+				ansq += 1;
 			}
 			else {
 				response += "Say something next time";
 			}
+			if (ansq == 1){
+				System.out.println("Healthbot: Next Question");
+				System.out.println("Do you eat fruits and veggies every day?");
+				response = "";
+				Scanner in2 = new Scanner (System.in);
+				String statement2 = in2.nextLine();
+				if ((findKeyword(statement2, "yes" , 0) >=0)){
+					response += "Healthbot: Great job! Eating fruits and veggies gives you the nutrients you need to live a sustainable life.";
+					ansq += 1;
+
+				}
+				else if ((findKeyword(statement2, "no" , 0) >=0)){
+					response += "Healthbot: That's not good. Fruits and veggies provide important nutrients that can help you and your body develop.";
+					ansq += 1;
+
+				}
+				else {
+					response += "Healthbot: Say something next time.";
+					ansq += 1;
+
+				}
+				ansq -= 1;
+
+			}
+			else {
+				response += "Healthbot: Broken.";
+
+			}
+			if (ansq == 1){
+				System.out.println("Healthbot: FINAL Question");
+				System.out.println("Do you take a few minutes to be mindful (meditation, breathing exercises, etc.) ?");
+				response = "";
+				Scanner in2 = new Scanner (System.in);
+				String statement2 = in2.nextLine();
+				if ((findKeyword(statement2, "yes" , 0) >=0)){
+					response += "Healthbot: That's very good. Calmness is important because it brings us back to \"reality\" and away from the stress and troubles of our work lives.";
+					ansq += 1;
+
+				}
+				else if ((findKeyword(statement2, "no" , 0) >=0)){
+					response += "Healthbot: That's not good. Mindfulness helps us escape from the stress of our work lives and brings us back to \"reality\" Take a few minutes every day if you can!";
+					ansq += 1;
+
+				}
+				else {
+					response += "Healthbot: Say something next time.";
+					ansq += 1;
+
+				}
+				ansq -= 1;
+			}
+				
 		}
-		else if ((findKeyword(statement, "Yes", 0) >= 0) && (findKeyword(statement, "exercise", 0) >= 0))
+
+		else if ((findKeyword(statement, "anything else?", 0) >= 0))
 		{
-			response = "Good job on exercising daily! It helps increase endorphin count and helps you lose weight!";
+			response = "Nope, nothing! Bye.";
 		}
-		else if ((findKeyword(statement, "No I do not exercise daily", 0) >= 0))
-		{
-			response = "Come on! Exercising daily is great for your health. Having a sedentary lifestyle increases your risk for diseases like heart attacks";
-		}
+		
+	
+		
 		else if ((findKeyword(statement, "Thanks", 0) >= 0))
 		{
 			response = "Your welcome";

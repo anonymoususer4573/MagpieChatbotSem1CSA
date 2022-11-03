@@ -105,12 +105,12 @@ public class Magpie4
 				Scanner in2 = new Scanner (System.in);
 				String statement2 = in2.nextLine();
 				if ((findKeyword(statement2, "yes" , 0) >=0)){
-					response += "Healthbot: Great job! Eating fruits and veggies gives you the nutrients you need to live a sustainable life.";
+					System.out.println("Healthbot: Great job! Eating fruits and veggies gives you the nutrients you need to live a sustainable life.");
 					ansq += 1;
 
 				}
 				else if ((findKeyword(statement2, "no" , 0) >=0)){
-					response += "Healthbot: That's not good. Fruits and veggies provide important nutrients that can help you and your body develop.";
+					System.out.println("Healthbot: That's not good. Fruits and veggies provide important nutrients that can help you and your body develop.");
 					ansq += 1;
 
 				}

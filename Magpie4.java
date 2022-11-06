@@ -20,7 +20,7 @@ public class Magpie4
 	 */
 	public String getGreeting()
 	{
-		return "Healthbot: Hey!";
+		return "Healthbot: Hello My name is HealthBot";
 	}
 
 	/**
@@ -41,7 +41,10 @@ public class Magpie4
 
 		else if (findKeyword(statement, "no") >= 0)
 		{
-			response = "Healthbot: Why so negative?";
+			response = "Healthbot: Why are you so negative?";
+		}
+		else if ((findKeyword(statement, "will", 0) >= 0)) {
+			response = "I dont know";
 		}
 		else if (findKeyword(statement, "mother") >= 0
 				|| findKeyword(statement, "father") >= 0
@@ -72,16 +75,16 @@ public class Magpie4
 			response = "Healthbot: Everything is well for me! How about you?";
 
 		}
-		else if ((findKeyword(statement, "I am doing good", 0) >= 0) || (findKeyword(statement, "Good", 0) >= 0))
+		else if(((findKeyword(statement, "doing", 0) >= 0) || (findKeyword(statement, "im", 0) >= 0) || (findKeyword(statement, "i'm", 0) >= 0) || (findKeyword(statement, "am", 0) >= 0) || (findKeyword(statement, "is", 0) >= 0)|| (findKeyword(statement, "are", 0) >= 0)) && (((findKeyword(statement, "good", 0) >= 0) || (findKeyword(statement, "great", 0) >= 0) || (findKeyword(statement, "awesome", 0) >= 0))))
 		{
 			response = "Healthbot: Nice! Let's talk about health!";
 
 		}
-		else if((findKeyword(statement, "I am doing bad", 0) >= 0) || (findKeyword(statement, "Things have been rough for me", 0) >= 0))
+		else if((findKeyword(statement, "doing", 0) >= 0) && (((findKeyword(statement, "bad", 0) >= 0) || (findKeyword(statement, "rough", 0) >= 0) || (findKeyword(statement, "terrible", 0) >= 0))))
 		{
 			response = "Healthbot: That's unfortunate, I hope I can cheer you up today.";
 		}
-		else if ((findKeyword(statement, "Give me health tips", 0) >= 0) || (findKeyword(statement, "give", 0) >= 0) || ((findKeyword(statement, "ok give tips", 0) >= 0)))
+		else if ((findKeyword(statement, "health", 0) >= 0) && (((findKeyword(statement, "advice", 0) >= 0))||(findKeyword(statement, "tips", 0) >= 0) || ((findKeyword(statement, "give", 0) >= 0))))
 		{
 			System.out.println("Healthbot: Sure");
 			System.out.println("Do you exercise every day?");
@@ -120,10 +123,9 @@ public class Magpie4
 
 				}
 				ansq -= 1;
-
 			}
 			else {
-				response += "Healthbot: Broken.";
+				response += "";
 
 			}
 			if (ansq == 1){
@@ -149,16 +151,23 @@ public class Magpie4
 				}
 				ansq -= 1;
 			}
-				
+
+		}
+		else if ((findKeyword(statement, "you", 0) >= 0) && (findKeyword(statement, "date", 0) >= 0) && (findKeyword(statement, "me", 0) >= 0) ){
+			response += "No, I will never date you, I am only here to give users health advice";
+		}
+		else if ((findKeyword(statement, "anything", 0) >= 0))
+		{
+			if ((findKeyword(statement, "want", 0) >= 0) && (findKeyword(statement, "you", 0) >= 0)) {
+				response = "I want to help those in need of Health Advice";
+			}
+			else {
+				response = "Nope, nothing!";
+			}
 		}
 
-		else if ((findKeyword(statement, "anything else?", 0) >= 0))
-		{
-			response = "Nope, nothing! Bye.";
-		}
-		
-	
-		
+
+
 		else if ((findKeyword(statement, "Thanks", 0) >= 0))
 		{
 			response = "Your welcome";
@@ -171,14 +180,19 @@ public class Magpie4
 			// Look for a two word (you <something> me)
 			// pattern
 			int psn = findKeyword(statement, "you", 0);
-
-			if (psn >= 0
-					&& findKeyword(statement, "me", psn) >= 0)
+			int loc = findKeyword(statement, "wood", 0);
+			int loc2 = findKeyword(statement, "wud", 0);
+			int quest = findKeyword(statement, "they", 0);
+			if (psn >= 0 && findKeyword(statement, "me", psn) >= 0)
 			{
 				response = transformYouMeStatement(statement);
-			}
-			else
+			} else if (quest >=0 && (findKeyword(statement, "they", quest)>= 0))
 			{
+				response = "Who are you refering to as 'they'";
+			} else if ((loc >= 0 && ((findKeyword(statement,"wood",loc))) >=0) || (loc2 >= 0 && ((findKeyword(statement,"wud",loc2))) >=0)){
+				response = clarification(statement);
+			}
+			else {
 				response = getRandomResponse();
 			}
 		}
@@ -206,7 +220,23 @@ public class Magpie4
 		String restOfStatement = statement.substring(psn + 9).trim();
 		return "Healthbot: What would it mean to " + restOfStatement + "?";
 	}
-
+	private String clarification(String statement)
+	{
+		//  Remove the final period, if there is one
+		statement = statement.trim();
+		String lastChar = statement.substring(statement
+				.length() - 1);
+		if (lastChar.equals("."))
+		{
+			statement = statement.substring(0, statement
+					.length() - 1);
+		}
+		int psn = (findKeyword(statement, "wud", 0));
+		int psn2 = (findKeyword(statement, "wood",0));
+		psn = psn2;
+		String restOfStatement = statement.substring(psn + 5).trim();
+		return "Healthbot: Did you mean 'Would " + restOfStatement + "?' ";
+	}
 
 
 	/**

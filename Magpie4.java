@@ -235,7 +235,13 @@ public class Magpie4
 		int psn2 = (findKeyword(statement, "wood",0));
 		psn = psn2;
 		String restOfStatement = statement.substring(psn + 5).trim();
-		return "Healthbot: Did you mean 'Would " + restOfStatement + "?' ";
+		if (psn >= 4) {
+			String startStatement = statement.substring(psn - 4, psn + 0).trim();
+			return "Healthbot: Did you mean '" + startStatement +" would " + restOfStatement + "?' ";
+		}
+		else {
+			return "Healthbot: Did you mean 'Would " + restOfStatement + "?' ";
+		}
 	}
 
 

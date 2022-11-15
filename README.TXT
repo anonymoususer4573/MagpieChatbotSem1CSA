@@ -13,3 +13,4 @@ AUTHORS: Pranav Palagummi, Uttam Lakumalla
 USER INSTRUCTIONS: You can download the code and run the MagpieRunner4.java class to start talking with Healthbot
 Link to PRESENTATION: https://docs.google.com/presentation/d/1whXecfPQL_ZXDGGv0JmHMuBRuJ8q6ceMHwP0Tl-ImBA/edit?usp=sharing
 LINK TO MILESTONE CHART: https://docs.google.com/spreadsheets/d/1oCvezQg4i0LTsqppAR0bZcvzbwA9OcWRYn4KBRSXfqU/edit?usp=sharing
+Link to re-factored chatbot: https://docs.google.com/presentation/d/1RXPArF20Xmwv-Dgfkc6mVm4GDoOdPucaXjKncWmjqHM/edit?usp=sharing

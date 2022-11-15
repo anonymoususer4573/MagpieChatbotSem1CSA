@@ -205,6 +205,14 @@ public class Magpie4
 	 * @param statement the user statement, assumed to contain "I want to"
 	 * @return the transformed statement
 	 */
+
+
+	
+	/** 
+	 * returns a string containing all of the text in fileName (including punctuation), 
+	 * with words separated by a single space 
+	 */
+
 	private String transformIWantToStatement(String statement)
 	{
 		//  Remove the final period, if there is one
@@ -235,13 +243,7 @@ public class Magpie4
 		int psn2 = (findKeyword(statement, "wood",0));
 		psn = psn2;
 		String restOfStatement = statement.substring(psn + 5).trim();
-		if (psn >= 4) {
-			String startStatement = statement.substring(psn - 4, psn + 0).trim();
-			return "Healthbot: Did you mean '" + startStatement +" would " + restOfStatement + "?' ";
-		}
-		else {
-			return "Healthbot: Did you mean 'Would " + restOfStatement + "?' ";
-		}
+		return "Healthbot: Did you mean 'Would " + restOfStatement + "?' ";
 	}
 
 
@@ -364,4 +366,145 @@ public class Magpie4
 		return response;
 	}
 
+
+
+private Boolean state0, state1, state2, state3, state4;
+int currState = parseinput(String statement);
+
+public Magpie4(){
+	state1=false;
+	state2=false;
+	state3=false;
+	state4=false;
+	
+	state0=true; // initial state
+	currState=0;
 }
+public void stateMachine(){
+ while(currState != 5){
+	 currState=getState();
+	 setState(currState);
+ }
+}
+private int getState(){
+ int nextState=0;
+ while (nextState<1 || nextState>5){
+   Scanner scan = new Scanner(System.in);  // Create a Scanner object
+   System.out.println("Enter next state (1-4), 5 to end: ");
+
+   nextState = scan.nextInt();  // Read user input
+ }
+ return nextState;
+}
+private void setState(int currState, String statement){
+   //reset all values.  Your state logic may vary
+	state1=false;
+	state2=false;
+	state3=false;
+	state4=false;
+	
+	switch(currState) {
+	  case 1:
+	  if (totalSentiment(statement) < -2){
+
+		state1=true;
+		System.out.println("This conversation is very negative. State 1 is true. ");
+	  }
+		break;
+	   case 2:
+	   if (totalSentiment(statement) > -2 && totalSentiment(statement) < 2){
+		state2=true;
+		System.out.println("This conversation is mostly negative. State 2 is true.");
+	   }
+		break;
+	   case 3:
+	   if (totalSentiment(statement) > 2 && totalSentiment(statement) < 2.5){
+		state3=true;
+		System.out.println("This conversation is slightly negative. State 3 is true.");
+	   }
+		break;
+	  case 4:
+	  if (totalSentiment(statement) > 2.5){
+		state4=true;
+		System.out.println("This conversation is positive. State 4 is true.");
+	  }
+		break;
+	   case 5:
+		System.out.println("Done....");
+		break;
+	  default:
+	  	getRandomResponse();
+	 }
+	 
+ }
+
+ 
+
+ public static double totalSentiment(String filename)
+  {
+    String file = Review.textToString(filename);
+    double sum = 0;
+    for(int len = file.length(); file.length() > 0;)
+    {
+      int ind = file.indexOf(" ");
+      String word;
+      if (ind > -1)
+      {
+        word = file.substring(0,ind);
+        file = file.substring(ind+1);
+      }
+      else
+      {
+        word = file;
+        file = "";
+
+
+      }
+
+      word = Review.removePunctuation(word);
+      if (!(word == "not" || word == "mostly" || word == "kinda" || word == "um" || word == "maybe" || word == "ah" || word == "uh" || word == "er" || (len > 2000 && word.length() >= 3)))  
+      {
+
+        sum += Review.sentimentVal(word);
+
+      }
+
+    }
+    return sum; 
+  }
+  public static String getPunctuation( String word )
+  { 
+    String punc = "";
+    for(int i=word.length()-1; i >= 0; i--){
+      if(!Character.isLetterOrDigit(word.charAt(i))){
+        punc = punc + word.charAt(i);
+      } else {
+        return punc;
+      }
+    }
+    return punc;
+  }
+  public static String removePunctuation( String word )
+  {
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
+    {
+      word = word.substring(1);
+    }
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
+    {
+      word = word.substring(0, word.length()-1);
+    }
+    
+    return word;
+  }
+}
+
+  
+  /** 
+   * Randomly picks a negative adjective from the negativeAdjectives.txt file and returns it.
+   */
+
+
+
+
+

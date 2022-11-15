@@ -30,7 +30,7 @@ public class Magpie4
 	 *            the user statement
 	 * @return a response based on the rules given
 	 */
-	public String getResponse(String statement)
+	public String parseinput(String statement)
 	{
 		String response = "";
 		int ansq = 0;
@@ -504,7 +504,6 @@ private void setState(int currState, String statement){
   /** 
    * Randomly picks a negative adjective from the negativeAdjectives.txt file and returns it.
    */
-
 
 
 

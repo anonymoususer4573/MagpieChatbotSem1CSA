@@ -369,7 +369,7 @@ public class Magpie4
 
 
 private Boolean state0, state1, state2, state3, state4;
-int currState = parseinput(String statement);
+int currState;
 
 public Magpie4(){
 	state1=false;
@@ -428,6 +428,7 @@ private void setState(int currState, String statement){
 		state4=true;
 		System.out.println("This conversation is positive. State 4 is true.");
 	  }
+		
 		break;
 	   case 5:
 		System.out.println("Done....");
